@@ -19,6 +19,7 @@ func Routers() *gin.Engine {
 	InstallPlugin(Router) // 安装插件
 	systemRouter := router.RouterGroupApp.System
 	exampleRouter := router.RouterGroupApp.Example
+	wechatRouter := router.RouterGroupApp.Wechat
 	// 如果想要不使用nginx代理前端网页，可以修改 web/.env.production 下的
 	// VUE_APP_BASE_API = /
 	// VUE_APP_BASE_PATH = http://localhost
@@ -32,7 +33,7 @@ func Routers() *gin.Engine {
 	// 跨域，如需跨域可以打开下面的注释
 	// Router.Use(middleware.Cors()) // 直接放行全部跨域请求
 	// Router.Use(middleware.CorsByRules()) // 按照配置的规则放行跨域请求
-	//global.GVA_LOG.Info("use middleware cors")
+	// global.GVA_LOG.Info("use middleware cors")
 	docs.SwaggerInfo.BasePath = global.GVA_CONFIG.System.RouterPrefix
 	Router.GET(global.GVA_CONFIG.System.RouterPrefix+"/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 	global.GVA_LOG.Info("register swagger handler")
@@ -71,6 +72,10 @@ func Routers() *gin.Engine {
 		exampleRouter.InitFileUploadAndDownloadRouter(PrivateGroup) // 文件上传下载功能路由
 
 	}
+
+	// 微信路由
+	wechatGroup := Router.Group("wechat")
+	wechatRouter.InitOfficialAccountRouter(wechatGroup)
 
 	global.GVA_LOG.Info("router register success")
 	return Router

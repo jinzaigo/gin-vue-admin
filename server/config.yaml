@@ -210,3 +210,13 @@ zap:
     max-age: 0
     show-line: true
     log-in-console: true
+
+#------------------------- 以下配置有敏感信息，切记别提交到Github -------------------------
+official-account-list:
+    - appId: "xxx"
+      token: "xxx"
+      appSecret: "xxx"
+      messageToken: ""
+      messageAesKey: ""
+
+#------------------------- 以上配置有敏感信息，切记别提交到Github -------------------------

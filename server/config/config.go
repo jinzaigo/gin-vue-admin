@@ -29,4 +29,7 @@ type Server struct {
 
 	// 跨域配置
 	Cors CORS `mapstructure:"cors" json:"cors" yaml:"cors"`
+
+	// 公众号
+	OfficialAccountList []OfficialAccount `mapstructure:"official-account-list" json:"official-account-list" yaml:"official-account-list"`
 }
