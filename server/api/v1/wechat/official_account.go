@@ -2,9 +2,11 @@ package wechat
 
 import (
 	"fmt"
+	"github.com/flipped-aurora/gin-vue-admin/server/constant"
 	"github.com/flipped-aurora/gin-vue-admin/server/global"
 	"github.com/flipped-aurora/gin-vue-admin/server/model/common/response"
 	"github.com/gin-gonic/gin"
+	"net/http"
 )
 
 type OfficialAccountApi struct{}
@@ -16,8 +18,15 @@ func (e *OfficialAccountApi) Index(c *gin.Context) {
 func (e *OfficialAccountApi) IndexPost(c *gin.Context) {
 
 	fmt.Println(global.GVA_CONFIG.OfficialAccountList)
-	fmt.Println(c.Get("wxOAAppId"))
-	response.OkWithMessage("index success", c)
+	fmt.Println(c.Get(constant.WechatOfficialAccountAppId))
+	// response.OkWithMessage("index success", c)
+
+	data, err := officialAccountService.GetApp(c).Base.GetCallbackIP(c.Request.Context())
+	if err != nil {
+		c.String(http.StatusBadRequest, err.Error())
+		return
+	}
+	c.JSON(http.StatusOK, data)
 
 }
 

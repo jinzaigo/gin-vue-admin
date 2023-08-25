@@ -3,11 +3,13 @@ package middleware
 import (
 	"crypto/sha1"
 	"fmt"
+	"github.com/flipped-aurora/gin-vue-admin/server/constant"
 	"github.com/flipped-aurora/gin-vue-admin/server/model/common/response"
 	"github.com/flipped-aurora/gin-vue-admin/server/utils"
 	"github.com/gin-gonic/gin"
 	"github.com/pkg/errors"
 	"io"
+	"net/http"
 	"sort"
 	"strings"
 )
@@ -36,12 +38,12 @@ func OfficialAccountAuth() gin.HandlerFunc {
 
 		// 验签通过：暂且认为GET请求就是接入，输出echoStr
 		if c.Request.Method == "GET" {
-			c.String(200, echostr)
+			c.String(http.StatusOK, echostr)
 			c.Abort()
 			return
 		}
 
-		c.Set("wxOAappId", appId)
+		c.Set(constant.WechatOfficialAccountAppId, appId)
 		c.Next()
 	}
 }
